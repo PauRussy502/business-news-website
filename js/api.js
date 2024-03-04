@@ -1,4 +1,4 @@
-function procesarSolicitud(url, destinoId) {
+function procesarSolicitud(url, destinoId, num) {
     fetch(url)
         .then(response => response.text())
         .then(html => {
@@ -9,22 +9,46 @@ function procesarSolicitud(url, destinoId) {
             <rss version="2.0">
             <channel>`;
 
-            const cveInfo = tempElement.querySelector('#SectionWithNativeTVE-TwoColumnImageDense-BusinessNews-4 > div > div:nth-child(1) > div.Column-imageDenseModRight > div');
+            if (num <= 2){
+                line = 1
+            }
+
+            else{
+                line = 2
+            }
+
+            if (num == 1){
+                column = 'div.Column-imageDenseModRight'
+            }
+            if (num == 2) {
+                column = 'div.Column-imageDenseModLeft'
+            }
+            if (num > 2) {
+                subcolumn = num - 2
+                column = 'div:nth-child('+subcolumn+')'
+            }
+
+            const cveInfo = tempElement.querySelector('#SectionWithNativeTVE-TwoColumnImageDense-BusinessNews-4 > div > div:nth-child('+line+')');
             if (cveInfo) {
-                var Image = cveInfo.querySelector('div.Card-mediaContainer > a > div > div > picture > img');
-                
+                var Title = cveInfo.querySelector(column +' > div > div.Card-textContent > div > div:nth-child(1) > div > div > a');
+                var Image = cveInfo.querySelector(column +' > div > div.Card-mediaContainer > a > div > div > picture > img');
+                var Info = cveInfo.querySelector(column +' > div > div.Card-textContent > div > div.Card-cardFooter > span.Card-time'); 
+
+                Title = Title.text
                 Image = Image.src
+                Info = Info.textContent
 
                 rssFeed += `
                     <item>
-                    <h2></h2>
+                    <h2>New ${num}</h2>
+                    <h3>${Title}</h3><span class="context">${Info}</span>
                     <img src="${Image}">
                     <p>
 
                     </p>
                     </item>`;
             }
-            console.log(Image)
+
             rssFeed += `
             </channel>
             </rss>`;
@@ -45,4 +69,5 @@ else {
     display = "block"
 }
 
-procesarSolicitud(criticalurl, 'new-1');
+procesarSolicitud(criticalurl, 'new-1', 1);
+procesarSolicitud(criticalurl, 'new-2', 2);
