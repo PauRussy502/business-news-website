@@ -34,14 +34,15 @@ function procesarSolicitud(url, destinoId, num) {
                 var Image = cveInfo.querySelector(column +' > div > div.Card-mediaContainer > a > div > div > picture > img');
                 var Info = cveInfo.querySelector(column +' > div > div.Card-textContent > div > div.Card-cardFooter > span.Card-time'); 
 
+                url = Title.href
                 Title = Title.text
                 Image = Image.src
                 Info = Info.textContent
+                
 
                 rssFeed += `
                     <item>
-                    <h2>New ${num}</h2>
-                    <h3>${Title}</h3><span class="context">${Info}</span>
+                    <div><h3 style="margin-top: 5px;" onclick="window.open('${url}', '_blank')">${Title}</h3><span class="context">${Info}</span></div>
                     <img src="${Image}">
                     <p>
 

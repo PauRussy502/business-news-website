@@ -33,9 +33,15 @@ img{
     text-align: justify;
 }
 
-.context{
+.context, .names{
     display: block;
     opacity: 0.8;
+}
+
+.names {
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 * {
